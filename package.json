@@ -1,0 +1,27 @@
+{
+  "name": "@flumens/fetch-onedrive-excel",
+  "version": "0.0.1",
+  "description": "Fetches the OneDrive excel sheet as a JSON object.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlumensIO/fetch-onedrive-excel.git"
+  },
+  "keywords": [
+    "onedrive",
+    "excel",
+    "fetch",
+    "json",
+    "node.js",
+    "file"
+  ],
+  "author": "Flumens",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FlumensIO/fetch-onedrive-excel/issues"
+  },
+  "homepage": "https://github.com/FlumensIO/fetch-onedrive-excel#readme"
+}
