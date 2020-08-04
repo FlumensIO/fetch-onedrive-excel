@@ -1,8 +1,8 @@
 // get local environment variables from .env
 const http = require("https"); // eslint-disable-line
 
-function fetch(fileID, sheetName) {
-  console.log(`Pulling ${sheetName} from remote.`);
+function fetch({ drive = "me/drive", file, sheet }) {
+  console.log(`Pulling ${sheet} from ${file}.`);
 
   const token = process.env.MS_TOKEN;
   if (!token) {
@@ -11,6 +11,18 @@ function fetch(fileID, sheetName) {
         "Requires an MS_TOKEN env var set up. You can get it using this link: https://developer.microsoft.com/en-us/graph/graph-explorer/preview"
       )
     );
+  }
+
+  if (!drive) {
+    throw new Error("Drive option is missing.");
+  }
+
+  if (!file) {
+    throw new Error("File option is missing.");
+  }
+
+  if (!sheet) {
+    throw new Error("Sheet option is missing.");
   }
 
   return new Promise(resolve => {
@@ -22,8 +34,7 @@ function fetch(fileID, sheetName) {
       // /workbook/worksheets('species')/usedRange
       // /workbook/worksheets('species')/range(address='species!A1:FC73')
       // /workbook/worksheets('species')/cell(row=3,column=8)
-
-      path: `/v1.0/me/drive/items/${fileID}/workbook/worksheets('${sheetName}')/usedRange`,
+      path: `/v1.0/${drive}/items/${file}/workbook/worksheets('${sheet}')/usedRange`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Cache-Control": "no-cache",
@@ -40,6 +51,10 @@ function fetch(fileID, sheetName) {
       res.on("end", () => {
         const body = Buffer.concat(chunks);
         const json = JSON.parse(body.toString());
+
+        if (json.error) {
+          throw new Error(json.error.message || "Request error");
+        }
 
         resolve(json.values);
       });
