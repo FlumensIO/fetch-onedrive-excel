@@ -8,7 +8,7 @@ function fetch({ drive = "me/drive", file, sheet }) {
   if (!token) {
     return Promise.reject(
       new Error(
-        "Requires an MS_TOKEN env var set up. You can get it using this link: https://developer.microsoft.com/en-us/graph/graph-explorer/preview"
+        `\n\n🥺 Requires an MS_TOKEN env var set up. You can get it using this link:\n\n  ↪ https://developer.microsoft.com/en-us/graph/graph-explorer/preview\n\n`
       )
     );
   }
@@ -25,7 +25,7 @@ function fetch({ drive = "me/drive", file, sheet }) {
     throw new Error("Sheet option is missing.");
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const options = {
       method: "GET",
       hostname: "graph.microsoft.com",
@@ -41,10 +41,10 @@ function fetch({ drive = "me/drive", file, sheet }) {
       },
     };
 
-    const req = http.request(options, res => {
+    const req = http.request(options, (res) => {
       const chunks = [];
 
-      res.on("data", chunk => {
+      res.on("data", (chunk) => {
         chunks.push(chunk);
       });
 
@@ -122,7 +122,7 @@ function processRow(header, row) {
 
   // for each row column value set it in the right rowObj
   row.forEach((columnVal, i) => {
-    if (columnVal !== null && columnVal !== "") {
+    if (columnVal !== null && columnVal !== "" && columnVal !== "\n") {
       setColumnObj(rowObj, header[i], normalizeValue(columnVal));
     }
   });
@@ -135,7 +135,7 @@ function processRows(rows) {
 
   const obj = [];
   const header = rows.shift();
-  rows.forEach(row => {
+  rows.forEach((row) => {
     const rowObj = processRow(header, row);
     obj.push(rowObj);
   });
