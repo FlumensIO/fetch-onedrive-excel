@@ -1,16 +1,43 @@
 // get local environment variables from .env
 const http = require("https"); // eslint-disable-line
+const exec = require("child_process").exec;
+const readline = require("readline");
 
-function fetch({ drive = "me/drive", file, sheet }) {
+async function fetch({ drive = "me/drive", file, sheet }) {
   console.log(`Pulling ${sheet} from ${file}.`);
 
-  const token = process.env.MS_TOKEN;
+  let token = process.env.MS_TOKEN;
   if (!token) {
-    return Promise.reject(
-      new Error(
-        `\n\n🥺 Requires an MS_TOKEN env var set up. You can get it using this link:\n\n  ↪ https://developer.microsoft.com/en-us/graph/graph-explorer/preview\n\n`
-      )
+    const tokenMessage = `\n\n🥺 Requires an MS_TOKEN env var set up. You can get it using this link:\n\n  ↪ https://developer.microsoft.com/en-us/graph/graph-explorer/preview\n\n`;
+
+    var isMacOS = process.platform === "darwin";
+    if (!isMacOS) {
+      return Promise.reject(new Error(tokenMessage));
+    }
+
+    console.warn(tokenMessage);
+
+    // open browser
+    exec(
+      'open "https://developer.microsoft.com/en-us/graph/graph-explorer/preview"'
     );
+
+    // accept the token
+    const prompt = new Promise((resolve) => {
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      rl.question("Please enter the Access token here:\n", function (value) {
+        resolve(value);
+        rl.close();
+      });
+    });
+
+    token = await prompt;
+
+    process.env.MS_TOKEN = token; // saving for other script runs in the same process
   }
 
   if (!drive) {
