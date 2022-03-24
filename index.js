@@ -104,6 +104,12 @@ function setColumnObj(obj, columnName, value) {
   const object = keyFull[keyFull.length - 1] === "}";
 
   if (!array && !object) {
+    const isEmptyValue =
+      typeof value === "string" && !value.replaceAll(" ", "").length;
+    if (isEmptyValue) {
+      return;
+    }
+
     return (obj[columnName] = value); // eslint-disable-line
   }
 
