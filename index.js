@@ -18,9 +18,7 @@ async function fetch({ drive = "me/drive", file, sheet }) {
     console.warn(tokenMessage);
 
     // open browser
-    exec(
-      'open "https://developer.microsoft.com/en-us/graph/graph-explorer/preview"'
-    );
+    exec('open "https://developer.microsoft.com/en-us/graph/graph-explorer"');
 
     // accept the token
     const prompt = new Promise((resolve) => {
