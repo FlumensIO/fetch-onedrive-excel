@@ -8,7 +8,7 @@ async function fetch({ drive = "me/drive", file, sheet }) {
 
   let token = process.env.MS_TOKEN;
   if (!token) {
-    const tokenMessage = `\n\n🥺 Requires an MS_TOKEN env var set up. You can get it using this link:\n\n  ↪ https://developer.microsoft.com/en-us/graph/graph-explorer/preview\n\n`;
+    const tokenMessage = `\n\n🥺 Requires an MS_TOKEN env var set up. You can get it using this link:\n\n  ↪ https://developer.microsoft.com/en-us/graph/graph-explorer\n\n`;
 
     var isMacOS = process.platform === "darwin";
     if (!isMacOS) {
