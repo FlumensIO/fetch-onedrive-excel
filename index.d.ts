@@ -1,3 +1,3 @@
-export as namespace '@flumens/fetch-onedrive-excel';
+export as namespace FetchOneDriveExcel;
 
-export default function fetch(options:any): any
+export default function fetch(options: any): any;
